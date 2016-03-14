@@ -21,6 +21,17 @@
   )
 
 
+(fact "I can tell when two lines are identical"
+  (solve '[x y]
+    (ex (= y (* x 4/3)))          ;; y = 4/3 x
+    (ex (= y (+ 1 -1 (* x 4/3)))) ;; y = 4/3 x
+    ) => '#{{x (* (- _0) -3/4), y _0}}                   
+                                  ;; this one's right, though very odd…
+                                  ;; and notice it's not #{{}}
+  )
+
+
+
 (fact "I can find where a circle and line intersect"
   (solve '[x y]
     (ex (= y (* x 4/3)))                           ;; y = 4/3 x
@@ -37,3 +48,13 @@
     ) =not=> #{{}}                                           ;; NO; the right answer is 
                                                              ;; #{{x 3 y 4}{x 3 y -4}}
   )
+
+
+(fact "I can detect when two circles are identical"
+  (solve '[x y]
+    (ex (= 25 (+ (* (- x 6 -3 -3) (- x 6 -3 -3)) (* (- y 0) (- y 0)))))  ;; x^2 + y^2 = 25
+    (ex (= 25 (+ (** (- x 0) 2) (** (- y 0) 2))))            ;; x^2 + y^2 = 25
+    ) =not=> #{{}}                                           ;; NO; the right answer is 
+                                                             ;; "they're the same"
+  )
+
